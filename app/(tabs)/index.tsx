@@ -8,11 +8,11 @@ import { useRouter } from "expo-router";
 import {
   ActivityIndicator,
   FlatList,
+  Image,
   ScrollView,
   Text,
   View,
 } from "react-native";
-import { Image } from "react-native-reanimated/lib/typescript/Animated";
 
 export default function Index() {
   const router = useRouter();
@@ -22,6 +22,8 @@ export default function Index() {
     loading: moviesLoading,
     error: moviesError,
   } = useFetch(() => fetchMovies({ query: "" }));
+
+  console.log(movies);
 
   return (
     <View className="flex-1 bg-primary">
@@ -64,7 +66,7 @@ mx-auto"
               <FlatList
                 data={movies}
                 renderItem={({ item }) => <MovieCard {...item} />}
-                keyExtractor={(item) => item.id.toString()}
+                keyExtractor={(item) => item.imdbID}
                 numColumns={3}
                 columnWrapperStyle={{
                   justifyContent: "flex-start",

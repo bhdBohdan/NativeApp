@@ -44,7 +44,7 @@ const search = () => {
       <FlatList
         data={movies}
         renderItem={({ item }) => <MovieCard {...item} />}
-        keyExtractor={(item) => item.id.toString()}
+        keyExtractor={(item) => item.imdbID}
         className="px-5 "
         numColumns={3}
         columnWrapperStyle={{
@@ -95,6 +95,15 @@ const search = () => {
                 </Text>
               )}
           </>
+        }
+        ListEmptyComponent={
+          !loading && !error ? (
+            <View className="mt-10 px-5">
+              <Text className="text-center text-gray-500">
+                {searchQuery.trim() ? "No movies found" : "Search for a movie"}
+              </Text>
+            </View>
+          ) : null
         }
       />
     </View>

@@ -1,10 +1,5 @@
 export const TMDB_CONFIG = {
-  BASE_URL: "https://api.themoviedb.org/3",
-  API_KEY: process.env.EXPO_PUBLIC_MOVIE_API_KEY,
-  headers: {
-    accept: "application/json",
-    Authorization: `Bearer ${process.env.EXPO_PUBLIC_MOVIE_API_KEY}`,
-  },
+  BASE_URL: process.env.EXPO_PUBLIC_API_URL,
 };
 
 export const fetchMovies = async ({
@@ -16,17 +11,19 @@ export const fetchMovies = async ({
   //     ? `${TMDB_CONFIG.BASE_URL}/search/movie?query=${encodeURIComponent(query)}`
   //     : `${TMDB_CONFIG.BASE_URL}/discover/movie?sort_by=popularity.desc`;
 
-  //   const response = await fetch(endpoint, {
-  //     method: "GET",
-  //     headers: TMDB_CONFIG.headers,
-  //   });
+  const url = query
+    ? TMDB_CONFIG.BASE_URL! + `&s=${encodeURIComponent(query)}`
+    : TMDB_CONFIG.BASE_URL! + "&s=spider";
 
-  //   if (!response.ok) {
-  //     throw new Error(`Failed to fetch movies: ${response.statusText}`);
-  //   }
+  console.log(url);
+  const response = await fetch(url);
 
-  //   const data = await response.json();
-  return [];
+  if (!response.ok) {
+    throw new Error(`Failed to fetch movies: ${response.statusText}`);
+  }
+
+  const data = await response.json();
+  return data.Search;
 };
 
 export const fetchMovieDetails = async (movieId: string): Promise<any> => {
